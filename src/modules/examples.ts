@@ -84,6 +84,7 @@ export class BasicExampleFactory {
   }
 }
 
+// SHORTCUTS
 export class KeyExampleFactory {
   @example
   static registerShortcuts() {
@@ -181,6 +182,7 @@ export class KeyExampleFactory {
   }
 }
 
+// CHANGE UI LOOK
 export class UIExampleFactory {
   @example
   static registerStyleSheet() {
@@ -273,9 +275,11 @@ export class UIExampleFactory {
         field: string,
         unformatted: boolean,
         includeBaseMapped: boolean,
-        item: Zotero.Item
+        item: Zotero.Item,
       ) => {
-        return String(item.id);
+        var constumfieldvalue = ztoolkit.ExtraField.getExtraField(item, "itemBoxFieldEditable")
+        return String(constumfieldvalue)
+        //return String(item.id);
       },
       {
         renderCellHook(index, data, column) {
@@ -284,13 +288,14 @@ export class UIExampleFactory {
             "span"
           );
           span.style.background = "#0dd068";
+          
           span.innerText = "⭐" + data;
           return span;
         },
       }
     );
   }
-
+  // CHANGE COLUMN LOOK
   @example
   static async registerCustomCellRenderer() {
     await ztoolkit.ItemTree.addRenderCellHook(
@@ -305,6 +310,7 @@ export class UIExampleFactory {
     await ztoolkit.ItemTree.refresh();
   }
 
+  // NEW COSTUM FIELD
   @example
   static async registerCustomItemBoxRow() {
     await ztoolkit.ItemBox.register(
@@ -345,6 +351,7 @@ export class UIExampleFactory {
     );
   }
 
+  // NEW ITEM TAB
   @example
   static registerLibraryTabPanel() {
     const tabId = ztoolkit.LibraryTabPanel.register(

@@ -1,14 +1,14 @@
 {
-  "name": "zotero-addon-template",
-  "version": "0.1.6",
-  "description": "Zotero Addon Template",
+  "name": "greatify",
+  "version": "0.0.1",
+  "description": "Gallery Reference Entry and Article Tool with Interface For You ",
   "config": {
-    "addonName": "Zotero Addon Template",
-    "addonID": "addontemplate@euclpts.com",
-    "addonRef": "addontemplate",
-    "addonInstance": "AddonTemplate",
-    "releasepage": "https://github.com/windingwind/zotero-addon-template/releases/latest/download/zotero-addon-template.xpi",
-    "updaterdf": "https://raw.githubusercontent.com/windingwind/zotero-addon-template/bootstrap/update.json"
+    "addonName": "greatify",
+    "addonID": "greatify@robertkalb.com",
+    "addonRef": "greatify",
+    "addonInstance": "Greatify",
+    "releasepage": "https://github.com/themetalleg/greatify/releases/latest/download/zotero-addon-template.xpi",
+    "updaterdf": "https://raw.githubusercontent.com/themetalleg/greatify/bootstrap/update.json"
   },
   "main": "src/index.ts",
   "scripts": {

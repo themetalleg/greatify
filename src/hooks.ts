@@ -5,6 +5,12 @@ import {
   PromptExampleFactory,
   UIExampleFactory,
 } from "./modules/examples";
+
+// greatify
+import {
+  ReportGreatifyFactory,
+} from "./modules/greatify";
+
 import { config } from "../package.json";
 import { getString, initLocale } from "./modules/locale";
 import { registerPrefsScripts } from "./modules/preferenceScript";
@@ -43,6 +49,9 @@ async function onStartup() {
     progress: 30,
     text: `[30%] ${getString("startup.begin")}`,
   });
+
+  // greatify
+  ReportGreatifyFactory.registerRightClickMenuItem();
 
   UIExampleFactory.registerStyleSheet();
 
