@@ -6,10 +6,12 @@ import {
   UIExampleFactory,
 } from "./modules/examples";
 
-// greatify
+// --- greatify
 import {
   ReportGreatifyFactory,
+  MenuGreatifyFactory,
 } from "./modules/greatify";
+// greatify ---
 
 import { config } from "../package.json";
 import { getString, initLocale } from "./modules/locale";
@@ -50,8 +52,11 @@ async function onStartup() {
     text: `[30%] ${getString("startup.begin")}`,
   });
 
-  // greatify
-  ReportGreatifyFactory.registerRightClickMenuItem();
+  // --- greatify
+  MenuGreatifyFactory.registerRightClickMenuItem();
+
+  // ReportGreatifyFactory.costumReport();
+  // greatify ---
 
   UIExampleFactory.registerStyleSheet();
 
@@ -174,6 +179,13 @@ function onDialogEvents(type: string) {
   }
 }
 
+function onWindowEvents(type: string) {
+  switch (type) {
+    case "report":
+      ReportGreatifyFactory.costumReport();
+  }
+}
+
 // Add your hooks here. For element click, etc.
 // Keep in mind hooks only do dispatch. Don't add code that does real jobs in hooks.
 // Otherwise the code would be hard to read and maintian.
@@ -185,4 +197,5 @@ export default {
   onPrefsEvent,
   onShortcuts,
   onDialogEvents,
+  onWindowEvents,
 };

@@ -30,14 +30,14 @@
     "type": "git",
     "url": "git+https://github.com/windingwind/zotero-addon-template.git"
   },
-  "author": "windingwind",
+  "author": "themetalleg",
   "license": "AGPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/windingwind/zotero-addon-template/issues"
+    "url": "https://github.com/themetalleg/greatify/issues"
   },
-  "homepage": "https://github.com/windingwind/zotero-addon-template#readme",
+  "homepage": "https://github.com/themetalleg/greatify#readme",
   "dependencies": {
-    "zotero-plugin-toolkit": "^2.0.1"
+    "zotero-plugin-toolkit": "^0.0.1"
   },
   "devDependencies": {
     "@types/node": "^18.11.17",

@@ -19,9 +19,9 @@ function greatify(
   return descriptor;
 }
 
-export class ReportGreatifyFactory {
+export class MenuGreatifyFactory {
 
-    @greatify
+  @greatify
     static registerRightClickMenuItem() {
       const menuIcon = `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`;
       // item menuitem with icon
@@ -30,29 +30,39 @@ export class ReportGreatifyFactory {
         id: "zotero-itemmenu-costumreport",
         label: "create costum report",
         // label: getString("menuitem.label"),
-        oncommand: ReportGreatifyFactory.costumReport.toString(),
+        // oncommand: ReportGreatifyFactory.costumReport as any as string,
+        commandListener: (ev) => addon.hooks.onWindowEvents("report"),
         icon: menuIcon,
       });
     }
 
-    @greatify
-    static costumReport() {
-        // Get the selected items
-        var items = Zotero.getActiveZoteroPane().getSelectedItems();
+}
 
-        // Define the columns to include in the report
-        var columns = ["Title", "Creator", "Date", "Publication Title"];
+export class ReportGreatifyFactory {
 
-        // Generate the report
-        var report = Zotero.Report.generate("item", items, columns, "html");
+  @greatify
+  static costumReport() {
+    const newTab = {
+      id: 'hello-world',
+      type: 'hello-world',
+      title: 'Hello World'
+    };
+    Zotero_Tabs.add(newTab);
+  
+    const deck = Zotero_Tabs.deck;
+    const container = deck.lastChild;
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('src', 'data:text/html,<html><body>Hello World</body></html>');
+    iframe.setAttribute('flex', '1');
+    container.appendChild(iframe);
+    
+    Zotero.Promise.delay(2000).then(() => {
+      const win = iframe.contentWindow;
+      win.print();
 
-        // Display the report in a new window
-        var reportWindow = window.open("", "report");
-        if (reportWindow) {
-            reportWindow.document.write(report);
-        } else {
-            alert("Failed to open report window. Please check your pop-up blocker settings.");
-        }
-    }
+    });
+    
+  }
+  
 }
 

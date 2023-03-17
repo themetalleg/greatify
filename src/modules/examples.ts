@@ -295,6 +295,7 @@ export class UIExampleFactory {
       }
     );
   }
+  
   // CHANGE COLUMN LOOK
   @example
   static async registerCustomCellRenderer() {
@@ -407,8 +408,8 @@ export class UIExampleFactory {
         reader: _ZoteroTypes.ReaderInstance
       ) => {
         if (!panel) {
-          ztoolkit.log(
-            "This reader do not have right-side bar. Adding reader tab skipped."
+          Zotero.log(
+            "This reader do not have right-side bar. Adding reader tab skipped.", "error"
           );
           return;
         }
