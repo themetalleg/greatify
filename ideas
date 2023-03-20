@@ -1,0 +1,63 @@
+html file:
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>My Custom Report</title>
+  </head>
+  <body>
+    <h1>Hello, ${name}!</h1>
+  </body>
+</html>
+
+javascript code to load the file:
+
+async function costumReport() {
+    const newTab = {
+      id: 'hello-world',
+      type: 'hello-world',
+      title: 'Hello World'
+    };
+    Zotero.Tabs.add(newTab);
+  
+    const deck = Zotero.Tabs.deck;
+    const container = deck.lastChild;
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('flex', '1');
+    container.appendChild(iframe);
+  
+    const html = await fetch('path/to/template.html').then(res => res.text());
+    const name = 'John Doe';
+    const interpolatedHtml = html.replace('${name}', name);
+  
+    const doc = iframe.contentDocument;
+    doc.open();
+    doc.write(interpolatedHtml);
+    doc.close();
+  }
+
+  do not display title:
+
+  @media print {
+    title {
+      display: none;
+    }
+  }
+
+  do not display print button:
+
+  <button class="noprint" onclick="window.print()">Print</button>
+
+  @media print {
+    .noprint {
+      display: none;
+    }
+  }
+
+
+
+  //Zotero.Promise.delay(2000).then(() => {
+    //  const win = iframe.contentWindow;
+    //  win.print();
+    //});

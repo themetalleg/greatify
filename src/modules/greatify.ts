@@ -41,26 +41,58 @@ export class MenuGreatifyFactory {
 export class ReportGreatifyFactory {
 
   @greatify
-  static costumReport() {
+  static generateCostumReport() {
     const newTab = {
       id: 'hello-world',
       type: 'hello-world',
       title: 'Hello World'
     };
     Zotero_Tabs.add(newTab);
-  
+    
+    const items = ZoteroPane.getSelectedItems();
+
+    Zotero.log(items, "warning");
+
+
     const deck = Zotero_Tabs.deck;
     const container = deck.lastChild;
     const iframe = document.createElement('iframe');
-    iframe.setAttribute('src', 'data:text/html,<html><body>Hello World</body></html>');
-    iframe.setAttribute('flex', '1');
-    container.appendChild(iframe);
-    
-    Zotero.Promise.delay(2000).then(() => {
-      const win = iframe.contentWindow;
-      win.print();
 
-    });
+    const htmlcss = `html { background-color: red; }`;
+
+    const htmlhead = `<head>
+    <title>report</title>
+    <meta charset="UTF-8">
+    <style>${htmlcss}</style>
+    </head>`;
+
+
+    const itemtable = `<table>
+    ${items
+      .map(
+        (item, index) =>
+        
+          `<tr>
+          <td>${String(index + 1)}. ${item.getDisplayTitle()}</td>
+          <td>${ztoolkit.ExtraField.getExtraField(item, "itemBoxFieldEditable")}</td>
+          </tr>
+          `
+      )
+      .join('')}
+      </table>`;
+
+    const htmlbody = `<body>
+    <h1>Report (${items.length} items)</h1>
+
+    <button onclick="window.print()">Print</button>
+    ${itemtable}
+    </body>`;
+
+    iframe.setAttribute('src', `data:text/html,<html>${htmlhead}${htmlbody}</html>`);
+    iframe.setAttribute('flex', '1');
+    if (container != null) {
+      container.appendChild(iframe);
+    }
     
   }
   

@@ -182,7 +182,7 @@ function onDialogEvents(type: string) {
 function onWindowEvents(type: string) {
   switch (type) {
     case "report":
-      ReportGreatifyFactory.costumReport();
+      ReportGreatifyFactory.generateCostumReport();
   }
 }
 
