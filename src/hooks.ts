@@ -179,10 +179,13 @@ function onDialogEvents(type: string) {
   }
 }
 
-function onWindowEvents(type: string) {
+// Function to handle window events and call the appropriate function
+async function onWindowEvents(type: string) {
   switch (type) {
     case "report":
-      ReportGreatifyFactory.generateCostumReport();
+      await ReportGreatifyFactory.generateCustomReport();
+      break;
+    // Add other cases here if needed
   }
 }
 

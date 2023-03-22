@@ -37,7 +37,8 @@
   },
   "homepage": "https://github.com/themetalleg/greatify#readme",
   "dependencies": {
-    "zotero-plugin-toolkit": "^0.0.1"
+    "handlebars": "^4.7.7",
+    "zotero-plugin-toolkit": "^2.0.8"
   },
   "devDependencies": {
     "@types/node": "^18.11.17",
