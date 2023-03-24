@@ -1,5 +1,6 @@
 import { config } from "../../package.json";
 import { getString } from "./locale";
+import { Icons } from './icons';
 
 function greatify(
   target: any,
@@ -42,29 +43,74 @@ export class MenuGreatifyFactory {
 
 export class ReportGreatifyFactory {
 
-  // Function to generate the HTML table for the selected items
+  /**
+   * Generates an HTML table for the selected items.
+   * @param {Object[]} items - An array of items to display in the table.
+   * @returns {string} - The generated HTML code.
+   */
   @greatify
-  static async generateItemTable(items: any[]) {
-    let itemTable = `<h1>Report (${items.length} items)</h1>`;
-    itemTable += "<table>";
-    
+  static async generateItemTable(items: string | any[]) {
+    const headerHTML = `<h1>Report (${items.length} items)</h1>`;
+    let tableHTML = headerHTML;
+
     for (const item of items) {
-      if (item.getDisplayTitle() == "cover.jpg") {
-        const dataURI = await item.attachmentDataURI;
-        itemTable += `<tr><td><img src="${dataURI}"></td></tr>`;
-      } else {
-        itemTable += `
-          <tr>
-          <td>- ${item.getDisplayTitle()}</td>
-          <td>${ztoolkit.ExtraField.getExtraField(item, "itemBoxFieldEditable")}</td>
-          <td>${item.isTopLevelItem()}</td>
-          <td>${item.itemType}</td>`;
+      Zotero.log(`YYY${item.isTopLevelItem()}YYY`, "warning");
+      Zotero.log(`UUU${item.ID}UUU`, "warning");
+      
+      if (item.isTopLevelItem()) {
+        let mainHTML = `<hr><p>${item.getDisplayTitle()}</p>`;
+        let coverHTML = Icons.questionCircle();
+
+        let attachmentsHTML = '';
+        let notesHTML = '';
+        
+        const type = item.itemType.toString();
+        mainHTML += `<p>XXX -${type}-</p>`;
+        Zotero.log(`itemtype: ${type}`);
+        
+        if (type == 'attachment' || type == 'note') {
+          Zotero.log('this is an attachment / note', 'warning');
+        } else {
+          // processing notes
+          notesHTML += `<p>${item.numNotes()} notes found</p>`;
+          if (item.numNotes().toString() == "0") {
+            Zotero.log('there are no notes', 'warning');
+          } else {
+            Zotero.log('here are notes to process', 'warning');
+          }
+
+          //processing attachments
+          attachmentsHTML += `<p>${item.numAttachments()} attachments found</p>`;
+          if (item.numAttachments().toString() == "0") {
+            Zotero.log('there are no attachments', 'warning');
+          } else {
+            const attachmentIDs = item.getAttachments().toString();
+            const IDs = attachmentIDs.split(',');
+            
+            for (const ID of IDs) {
+              const attachment = Zotero.Items.get(ID);
+
+              if (attachment.getDisplayTitle() === "cover.jpg") {
+                const cover = await attachment.attachmentDataURI;
+                coverHTML = `<img src="${cover}">`;
+                Zotero.log(`cover: ${cover}`, 'warning');
+              } else {
+                attachmentsHTML += `<p>${attachment.getDisplayTitle()}</p>`;
+              }
+            }
+          }
+        }
+        
+        mainHTML += coverHTML + attachmentsHTML + notesHTML;
+        tableHTML += mainHTML;
       }
     }
-    
-    itemTable += `</table>`;
-    return itemTable;
+
+    return tableHTML;
   }
+
+
+
 
   // Function to generate the HTML content for the report
   @greatify
@@ -95,6 +141,10 @@ export class ReportGreatifyFactory {
 
     // Get the selected items
     const items = ZoteroPane.getSelectedItems();
+
+    for (let item of items) {
+      item.numAnnotations;
+    }
 
     // Generate the HTML table for the items
     const itemTable = await ReportGreatifyFactory.generateItemTable(items);
