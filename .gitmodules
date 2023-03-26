@@ -1,0 +1,3 @@
+[submodule "addon/chrome/content/icons/bootstrap/icons"]
+	path = addon/chrome/content/icons/bootstrap/icons
+	url = https://github.com/twbs/icons
