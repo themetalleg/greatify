@@ -48,59 +48,60 @@ export class ReportGreatifyFactory {
    * @param {Object[]} items - An array of items to display in the table.
    * @returns {string} - The generated HTML code.
    */
-  @greatify
-  static async generateItemTable(items: string | any[]) {
-    const headerHTML = `<h1>Report (${items.length} items)</h1>`;
+  @greatify // assuming this is a decorator
+  static async generateItemTable(items: string | any[]): Promise<string> { // explicitly specify the return type as a promise of string
+    const reportTitle = `Report (${items.length} items)`;
+    const headerHTML = `<h1>${reportTitle}</h1>`;
     let tableHTML = headerHTML;
 
     for (const item of items) {
-      Zotero.log(`YYY${item.isTopLevelItem()}YYY`, "warning");
-      Zotero.log(`UUU${item.ID}UUU`, "warning");
-      
       if (item.isTopLevelItem()) {
-        let mainHTML = `<hr><p>${item.getDisplayTitle()}</p>`;
-        let coverHTML = Icons.questionCircle();
+        const mainTitle = item.getDisplayTitle();
+        let mainHTML = `<hr><p>${mainTitle}</p>`;
+        let coverHTML = await Icons.get("question-circle"); // await the promise returned by Icons.get
 
         let attachmentsHTML = '';
         let notesHTML = '';
-        
+
         const type = item.itemType.toString();
-        mainHTML += `<p>XXX -${type}-</p>`;
-        Zotero.log(`itemtype: ${type}`);
-        
-        if (type == 'attachment' || type == 'note') {
-          Zotero.log('this is an attachment / note', 'warning');
+        mainHTML += `<p>Item Type: ${type}</p>`;
+
+        if (type === 'attachment' || type === 'note') {
+          console.warn('This is an attachment/note item. Skipping it.');
+          continue;
         } else {
           // processing notes
-          notesHTML += `<p>${item.numNotes()} notes found</p>`;
-          if (item.numNotes().toString() == "0") {
-            Zotero.log('there are no notes', 'warning');
+          const numNotes = item.numNotes();
+          notesHTML += `<p>${numNotes} notes found</p>`;
+          if (numNotes === 0) {
+            console.log(`No notes found for item: ${mainTitle}`);
           } else {
-            Zotero.log('here are notes to process', 'warning');
+            console.log(`Notes found for item: ${mainTitle}`);
           }
 
           //processing attachments
-          attachmentsHTML += `<p>${item.numAttachments()} attachments found</p>`;
-          if (item.numAttachments().toString() == "0") {
-            Zotero.log('there are no attachments', 'warning');
+          const numAttachments = item.numAttachments();
+          attachmentsHTML += `<p>${numAttachments} attachments found</p>`;
+          if (numAttachments === 0) {
+            console.log(`No attachments found for item: ${mainTitle}`);
           } else {
             const attachmentIDs = item.getAttachments().toString();
             const IDs = attachmentIDs.split(',');
-            
+
             for (const ID of IDs) {
               const attachment = Zotero.Items.get(ID);
 
               if (attachment.getDisplayTitle() === "cover.jpg") {
                 const cover = await attachment.attachmentDataURI;
-                coverHTML = `<img src="${cover}">`;
-                Zotero.log(`cover: ${cover}`, 'warning');
+                coverHTML = `<img src="${cover}" alt="${mainTitle} cover image">`;
+                console.log(`Cover found for item: ${mainTitle}`);
               } else {
                 attachmentsHTML += `<p>${attachment.getDisplayTitle()}</p>`;
               }
             }
           }
         }
-        
+
         mainHTML += coverHTML + attachmentsHTML + notesHTML;
         tableHTML += mainHTML;
       }
