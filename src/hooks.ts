@@ -160,7 +160,7 @@ function onShortcuts(type: string) {
 function onDialogEvents(type: string) {
   switch (type) {
     case "dialogExample":
-      HelperExampleFactory.dialogExample();
+      // HelperExampleFactory.dialogExample();
       break;
     case "clipboardExample":
       HelperExampleFactory.clipboardExample();
