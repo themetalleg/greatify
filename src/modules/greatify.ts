@@ -49,12 +49,15 @@ export class ReportGreatifyFactory {
    * @returns {string} - The generated HTML code.
    */
   @greatify // assuming this is a decorator
-  static async generateItemTable(items: string | any[]): Promise<string> { // explicitly specify the return type as a promise of string
-    const reportTitle = `Report (${items.length} items)`;
+  static async generateItemTable(items: any[]): Promise<string> { // explicitly specify the return type as a promise of string
+    // just process top level items
+    const itemsTopLevel = items.filter(item => item.isTopLevelItem());
+    
+    const reportTitle = `Report (${itemsTopLevel.length} items)`;
     const headerHTML = `<h1>${reportTitle}</h1>`;
     let tableHTML = headerHTML;
 
-    for (const item of items) {
+    for (const item of itemsTopLevel) {
       if (item.isTopLevelItem()) {
         const mainTitle = item.getDisplayTitle();
         let mainHTML = `<hr><p>${mainTitle}</p>`;
