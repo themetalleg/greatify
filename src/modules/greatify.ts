@@ -68,7 +68,6 @@ export class ReportGreatifyFactory {
 
         if (type === 'attachment' || type === 'note') {
           console.warn('This is an attachment/note item. Skipping it.');
-          continue;
         } else {
           // processing notes
           const numNotes = item.numNotes();
