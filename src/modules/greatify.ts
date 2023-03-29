@@ -111,6 +111,7 @@ export class ReportGreatifyFactory {
     notesHTML += '<ul id="notes">';
     for (const ID of notes) {
       const note = Zotero.Items.get(ID);
+      notesHTML += `<li>${note.getNote()}</li>`;
       notesHTML += `<li>${note.getDisplayTitle()}</li>`;
     }
     notesHTML += '</ul>';
