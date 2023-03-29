@@ -1,5 +1,5 @@
-import { config } from "../../package.json";
-import { getString } from "./locale";
+import { config } from '../../package.json';
+import { getString } from './locale';
 import { Icons } from './icons';
 
 function greatify(
@@ -10,10 +10,10 @@ function greatify(
   const original = descriptor.value;
   descriptor.value = function (...args: any) {
     try {
-      Zotero.log(`Calling function ${target.name}.${String(propertyKey)}`, "warning");
+      Zotero.log(`Calling function ${target.name}.${String(propertyKey)}`, 'warning');
       return original.apply(this, args);
     } catch (e) {
-      Zotero.log(`Error in function ${target.name}.${String(propertyKey)}: ${e}`, "warning");
+      Zotero.log(`Error in function ${target.name}.${String(propertyKey)}: ${e}`, 'warning');
       throw e;
     }
   };
@@ -29,13 +29,13 @@ export class MenuGreatifyFactory {
   static registerRightClickMenuItem() {
     const menuIcon = `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`;
     
-    ztoolkit.Menu.register("item", {
-      tag: "menuitem",
-      id: "zotero-itemmenu-costumreport",
-      label: "Create costum report",
+    ztoolkit.Menu.register('item', {
+      tag: 'menuitem',
+      id: 'zotero-itemmenu-costumreport',
+      label: 'Create costum report',
       // label: getString("menuitem.label"),
       // oncommand: ReportGreatifyFactory.costumReport as any as string,
-      commandListener: () => addon.hooks.onWindowEvents("report"),
+      commandListener: () => addon.hooks.onWindowEvents('report'),
       icon: menuIcon,
     });
   }
@@ -90,6 +90,7 @@ export class ReportGreatifyFactory {
   static notesList(item: Zotero.Item) {
 
     // set standard return
+    Zotero.log('no notes found', 'warning');
     let notesHTML = 'no notes found';
 
     // check if attachment or note, then standard return
@@ -127,7 +128,8 @@ export class ReportGreatifyFactory {
   static attachmentsList(item: Zotero.Item) {
 
     // set standard return
-    let attachmentsHTML = 'no attachments found';
+    Zotero.log('no attachments found', 'warning');
+    let attachmentsHTML = '';
 
     // check if attachment or note, then standard return
     if (this.isAttachmentOrNote(item)) {
@@ -162,7 +164,7 @@ export class ReportGreatifyFactory {
   @greatify
   static async getCover(item: Zotero.Item) {
     // set standard return
-    let coverHTML = '<i class="bi bi-vinyl"></i>';
+    let coverHTML = '<i class="bi bi-file-earmark-image"></i>';
 
     // check if attachment or note, then standard return
     if (this.isAttachmentOrNote(item)) {
@@ -178,7 +180,7 @@ export class ReportGreatifyFactory {
     // searching for cover.jpg file in attachments
     const coverID = item.getAttachments().find(ID => {
       const attachment = Zotero.Items.get(ID);
-      return attachment.getDisplayTitle() === "cover.jpg";
+      return attachment.getDisplayTitle() === 'cover.jpg';
     });
     
     // if it was found, return the cover instead of standard return
