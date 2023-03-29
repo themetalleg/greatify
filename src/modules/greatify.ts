@@ -53,16 +53,16 @@ export class ReportGreatifyFactory {
     // just process top level items
     const itemsTopLevel = items.filter(item => item.isTopLevelItem());
     
-    const headerHTML = this.createReportHeader(itemsTopLevel);
+    const headerHTML        = this.createReportHeader(itemsTopLevel);
 
     let tableHTML = '';
 
     for (const item of itemsTopLevel) {
 
-      const itemHTML = this.createItemHTML(item);
-      const notesHTML = this.notesList(item);
+      const itemHTML        = this.createItemHTML(item);
+      const notesHTML       = this.notesList(item);
       const attachmentsHTML = this.attachmentsList(item);
-      const coverHTML = await this.getCover(item);
+      const coverHTML       = await this.getCover(item);
 
       tableHTML += itemHTML + coverHTML + attachmentsHTML + notesHTML;
     }
@@ -86,45 +86,48 @@ export class ReportGreatifyFactory {
 
   @greatify
   static notesList(item: Zotero.Item) {
-    let notesHTML = '';
-    const type = item.itemType.toString();
+    // set standard return
+    let notesHTML = 'no notes found';
 
-    if (type === 'attachment' || type === 'note') {
-      console.warn('This is an attachment/note item. Skipping it.');
-    } else {
-      // processing notes
-      const numNotes = item.numNotes();
-      notesHTML += `<p>${numNotes} notes found</p>`;
-      if (numNotes === 0) {
-        console.log(`No notes found`);
-      } else {
-        console.log(`Notes found`);
-      }
+    // check if attachment or note, then standard return
+    if (this.isAttachmentOrNote(item)) {
+      return notesHTML;
     }
+
+    // check if more than one note, if not, standard return
+    const numNotes = item.numNotes();
+    if (numNotes === 0) {
+      return notesHTML;
+    }
+
+    // processing notes
+    notesHTML = `<p>${numNotes} notes found</p>`;
+    console.log(`notes found`);
+    
     return notesHTML;
   }
 
   @greatify
   static attachmentsList(item: Zotero.Item) {
+    // set standard return
     let attachmentsHTML = 'no attachments found';
-    const type = item.itemType.toString();
 
-    if (type === 'attachment' || type === 'note') {
-      console.warn('This is an attachment/note item. Skipping it.');
+    // check if attachment or note, then standard return
+    if (this.isAttachmentOrNote(item)) {
+      return attachmentsHTML;
+    }
+    
+    // processing attachments
+    const numAttachments = item.numAttachments();
+    attachmentsHTML = `<p>${numAttachments} attachments found</p>`;
+    if (numAttachments === 0) {
+      console.log(`No attachments found`);
     } else {
-      //processing attachments
-      
-      const numAttachments = item.numAttachments();
-      attachmentsHTML += `<p>${numAttachments} attachments found</p>`;
-      if (numAttachments === 0) {
-        console.log(`No attachments found`);
-      } else {
-        const attachments = item.getAttachments();
+      const attachments = item.getAttachments();
 
-        for (const ID of attachments) {
-          const attachment = Zotero.Items.get(ID);
-          attachmentsHTML += `<p>${attachment.getDisplayTitle()}</p>`;
-        }
+      for (const ID of attachments) {
+        const attachment = Zotero.Items.get(ID);
+        attachmentsHTML += `<p>${attachment.getDisplayTitle()}</p>`;
       }
     }
     return attachmentsHTML;
@@ -132,29 +135,41 @@ export class ReportGreatifyFactory {
 
   @greatify
   static async getCover(item: Zotero.Item) {
+    // set standard return
     let coverHTML = await Icons.get("question-circle");
-    const type = item.itemType.toString();
-    if (type === 'attachment' || type === 'note') {
-      console.warn('This is an attachment/note item. Skipping it.');
+
+    // check if attachment or note, then standard return
+    if (this.isAttachmentOrNote(item)) {
+      return coverHTML;
+    }
+
+    const numAttachments = item.numAttachments();
+    if (numAttachments === 0) {
+      console.log(`No attachments found`);
     } else {
-      const numAttachments = item.numAttachments();
-      if (numAttachments === 0) {
-        console.log(`No attachments found`);
-      } else {
-        const attachments = item.getAttachments();
-        for (const ID of attachments) {
-          const attachment = Zotero.Items.get(ID);
-          if (attachment.getDisplayTitle() === "cover.jpg") {
-            const cover = await attachment.attachmentDataURI;
-            coverHTML = `<img src="${cover}" alt="cover image">`;
-          }
+      const attachments = item.getAttachments();
+      for (const ID of attachments) {
+        const attachment = Zotero.Items.get(ID);
+        if (attachment.getDisplayTitle() === "cover.jpg") {
+          const cover = await attachment.attachmentDataURI;
+          coverHTML = `<img src="${cover}" alt="cover image">`;
         }
       }
     }
     return coverHTML;
   }
 
-  
+  @greatify
+  static isAttachmentOrNote(item: Zotero.Item) {
+    const type = item.itemType.toString();
+    if (type === 'attachment' || type === 'note') {
+      console.warn('This is an attachment/note item. Skipping it.');
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   // Function to generate the HTML content for the report
   @greatify
   static generateReportContent(itemTable: string) {
@@ -184,10 +199,6 @@ export class ReportGreatifyFactory {
 
     // Get the selected items
     const items = ZoteroPane.getSelectedItems();
-
-    for (let item of items) {
-      item.numAnnotations;
-    }
 
     // Generate the HTML table for the items
     const itemTable = await ReportGreatifyFactory.generateItemTable(items);
