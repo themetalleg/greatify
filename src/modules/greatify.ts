@@ -53,23 +53,35 @@ export class ReportGreatifyFactory {
     // just process top level items
     const itemsTopLevel = items.filter(item => item.isTopLevelItem());
     
-    const reportTitle = `Report (${itemsTopLevel.length} items)`;
-    const headerHTML = `<h1>${reportTitle}</h1>`;
-    let tableHTML = headerHTML;
+    const headerHTML = this.createReportHeader(itemsTopLevel);
+
+    let tableHTML = '';
 
     for (const item of itemsTopLevel) {
-        const mainTitle = item.getDisplayTitle();
-        let mainHTML = `<hr><p>${mainTitle}</p>`;
 
-        const notesHTML = this.notesList(item);
-        const attachmentsHTML = this.attachmentsList(item);
-        const coverHTML = await this.getCover(item);
-        
-        mainHTML += coverHTML + attachmentsHTML + notesHTML;
-        tableHTML += mainHTML;
+      const itemHTML = this.createItemHTML(item);
+      const notesHTML = this.notesList(item);
+      const attachmentsHTML = this.attachmentsList(item);
+      const coverHTML = await this.getCover(item);
+
+      tableHTML += itemHTML + coverHTML + attachmentsHTML + notesHTML;
     }
 
-    return tableHTML;
+    return headerHTML + tableHTML;
+  }
+
+  @greatify
+  static createReportHeader(items: any[]) {
+    const reportTitle = `Report (${items.length} items)`;
+    const headerHTML = `<h1>${reportTitle}</h1>`;
+    return headerHTML;
+  }
+
+  @greatify
+  static createItemHTML(item: Zotero.Item) {
+    const itemTitle = item.getDisplayTitle();
+    let itemHTML = `<hr><p>${itemTitle}</p>`;
+    return itemHTML;
   }
 
   @greatify
