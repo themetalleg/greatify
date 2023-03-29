@@ -56,7 +56,7 @@ export class ReportGreatifyFactory {
     
     const headerHTML = this.createReportHeader(itemsTopLevel);
 
-    let tableHTML = '';
+    let tableHTML = '<table class="table">';
 
     for (const item of itemsTopLevel) {
 
@@ -65,10 +65,19 @@ export class ReportGreatifyFactory {
       const attachmentsHTML = this.attachmentsList(item);
       const coverHTML       = await this.getCover(item);
 
-      tableHTML += itemHTML + coverHTML + attachmentsHTML + notesHTML;
+      tableHTML += '<tr>';
+      tableHTML += this.tagHTML('td', coverHTML);
+      tableHTML += this.tagHTML('td', itemHTML + attachmentsHTML + notesHTML);
+      tableHTML += '</tr>';
     }
 
+    tableHTML += '<table>';
     return headerHTML + tableHTML;
+  }
+
+  @greatify
+  static tagHTML(tag: string, content: string) {
+    return `<${tag}>${content}</${tag}>`;
   }
 
   @greatify
@@ -81,8 +90,7 @@ export class ReportGreatifyFactory {
   @greatify
   static createItemHTML(item: Zotero.Item) {
     const itemTitle = item.getDisplayTitle();
-    let itemHTML = '<hr>';
-    itemHTML += `<h2>${itemTitle}</h2>`;
+    itemHTML = `<h2>${itemTitle}</h2>`;
     return itemHTML;
   }
 
@@ -91,7 +99,7 @@ export class ReportGreatifyFactory {
 
     // set standard return
     Zotero.log('no notes found', 'warning');
-    let notesHTML = 'no notes found';
+    let notesHTML = '';
 
     // check if attachment or note, then standard return
     if (this.isAttachmentOrNote(item)) {
@@ -106,7 +114,7 @@ export class ReportGreatifyFactory {
 
     // creating notes header
     notesHTML = '';
-    notesHTML += '<div class="alert alert-warning" role="alert">';
+    notesHTML += '<div class="alert alert-light" role="alert">';
     notesHTML += `<h3>Notes</h3>`;
     notesHTML += '</div>';
 
@@ -144,7 +152,7 @@ export class ReportGreatifyFactory {
     
     // creating attachment header
     attachmentsHTML = '';
-    attachmentsHTML += '<div class="alert alert-primary" role="alert">';
+    attachmentsHTML += '<div class="alert alert-light" role="alert">';
     attachmentsHTML += `<h3>Attachments</h3>`;
     attachmentsHTML += '</div>';
 
@@ -164,7 +172,7 @@ export class ReportGreatifyFactory {
   @greatify
   static async getCover(item: Zotero.Item) {
     // set standard return
-    let coverHTML = '<i class="bi bi-file-earmark-image"></i>';
+    let coverHTML = '<div class="d-block bg-dark img-thumbnail m-4" style="width: 200px; height: 200px;"></div>';
 
     // check if attachment or note, then standard return
     if (this.isAttachmentOrNote(item)) {
@@ -187,7 +195,7 @@ export class ReportGreatifyFactory {
     if (coverID) {
       const attachment = Zotero.Items.get(coverID);
       const cover = await attachment.attachmentDataURI;
-      return `<img src="${cover}" alt="cover image">`;
+      return `<img src="${cover}" alt="cover image" class="img-thumbnail m-4" width="200">`;
     }
     
     //if nothing was found, standard return
@@ -208,7 +216,11 @@ export class ReportGreatifyFactory {
   // Function to generate the HTML content for the report
   @greatify
   static generateReportContent(itemTable: string) {
-    const htmlcss = `html { background-color: white; }`;
+    const htmlcss = `
+    html { background-color: white; }
+    td { vertical-align: top; }
+    
+    `;
     const htmlhead = `<head>
       <title>report</title>
       <meta charset="UTF-8">
