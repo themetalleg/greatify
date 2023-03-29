@@ -58,17 +58,15 @@ export class ReportGreatifyFactory {
     let tableHTML = headerHTML;
 
     for (const item of itemsTopLevel) {
-      if (item.isTopLevelItem()) {
         const mainTitle = item.getDisplayTitle();
         let mainHTML = `<hr><p>${mainTitle}</p>`;
-        
+
         const notesHTML = this.notesList(item);
         const attachmentsHTML = this.attachmentsList(item);
         const coverHTML = await this.getCover(item);
         
         mainHTML += coverHTML + attachmentsHTML + notesHTML;
         tableHTML += mainHTML;
-      }
     }
 
     return tableHTML;
