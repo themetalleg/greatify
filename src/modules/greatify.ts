@@ -142,12 +142,12 @@ export class ReportGreatifyFactory {
     // processing attachments
     const attachments = item.getAttachments();
 
-    attachmentsHTML += '<ul id="attachments">';
+    attachmentsHTML += '<div class="alert alert-primary" role="alert">';
     for (const ID of attachments) {
       const attachment = Zotero.Items.get(ID);
       attachmentsHTML += `<li>${attachment.getDisplayTitle()}</li>`;
     }
-    attachmentsHTML += '</ul>';
+    attachmentsHTML += '</div>';
     
     return attachmentsHTML;
   }
@@ -155,7 +155,7 @@ export class ReportGreatifyFactory {
   @greatify
   static async getCover(item: Zotero.Item) {
     // set standard return
-    let coverHTML = await Icons.get("question-circle");
+    let coverHTML = '<i class="bi bi-vinyl"></i>';
 
     // check if attachment or note, then standard return
     if (this.isAttachmentOrNote(item)) {
@@ -199,14 +199,16 @@ export class ReportGreatifyFactory {
   // Function to generate the HTML content for the report
   @greatify
   static generateReportContent(itemTable: string) {
-    const htmlcss = `html { background-color: red; }`;
+    const htmlcss = `html { background-color: white; }`;
     const htmlhead = `<head>
       <title>report</title>
       <meta charset="UTF-8">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
       <style>${htmlcss}</style>
       </head>`;
     const htmlbody = `<body>
-      <button onclick="window.print()">Print</button>
+      <button type="button" class="btn btn-primary d-print-none" onclick="window.print()">Print</button>
       ${itemTable}
       </body>`;
     return `<html>${htmlhead}${htmlbody}</html>`;
