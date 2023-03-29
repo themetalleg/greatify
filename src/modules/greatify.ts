@@ -81,7 +81,8 @@ export class ReportGreatifyFactory {
   @greatify
   static createItemHTML(item: Zotero.Item) {
     const itemTitle = item.getDisplayTitle();
-    let itemHTML = `<hr><p>${itemTitle}</p>`;
+    let itemHTML = '<hr>';
+    itemHTML += `<h2>${itemTitle}</h2>`;
     return itemHTML;
   }
 
@@ -103,18 +104,21 @@ export class ReportGreatifyFactory {
     }
 
     // creating notes header
-    notesHTML = `<p>${numNotes} notes found</p>`;
+    notesHTML = '';
+    notesHTML += '<div class="alert alert-warning" role="alert">';
+    notesHTML += `<h3>Notes</h3>`;
+    notesHTML += '</div>';
 
     // processing attachments
     const notes = item.getNotes();
 
-    notesHTML += '<ul id="notes">';
     for (const ID of notes) {
       const note = Zotero.Items.get(ID);
-      notesHTML += `<li>${note.getNote()}</li>`;
-      notesHTML += `<li>${note.getDisplayTitle()}</li>`;
+      notesHTML += '<div class="alert alert-warning" role="alert">';
+      notesHTML += `${note.getNote()}`;
+      notesHTML += '</div>';
+      //notesHTML += `<li>${note.getDisplayTitle()}</li>`;
     }
-    notesHTML += '</ul>';
 
     return notesHTML;
   }
@@ -137,7 +141,10 @@ export class ReportGreatifyFactory {
     }
     
     // creating attachment header
-    attachmentsHTML = `<p>${numAttachments} attachments found</p>`;
+    attachmentsHTML = '';
+    attachmentsHTML += '<div class="alert alert-primary" role="alert">';
+    attachmentsHTML += `<h3>Attachments</h3>`;
+    attachmentsHTML += '</div>';
 
     // processing attachments
     const attachments = item.getAttachments();
@@ -189,7 +196,7 @@ export class ReportGreatifyFactory {
   static isAttachmentOrNote(item: Zotero.Item) {
     const type = item.itemType.toString();
     if (type === 'attachment' || type === 'note') {
-      console.warn('This is an attachment/note item. Skipping it.');
+      Zotero.log('This is an attachment/note item. Skipping it.', 'warning');
       return true;
     } else {
       return false;
