@@ -50,10 +50,11 @@ export class ReportGreatifyFactory {
    */
   @greatify // assuming this is a decorator
   static async generateItemTable(items: any[]): Promise<string> { // explicitly specify the return type as a promise of string
+    
     // just process top level items
     const itemsTopLevel = items.filter(item => item.isTopLevelItem());
     
-    const headerHTML        = this.createReportHeader(itemsTopLevel);
+    const headerHTML = this.createReportHeader(itemsTopLevel);
 
     let tableHTML = '';
 
@@ -86,6 +87,7 @@ export class ReportGreatifyFactory {
 
   @greatify
   static notesList(item: Zotero.Item) {
+
     // set standard return
     let notesHTML = 'no notes found';
 
@@ -100,8 +102,10 @@ export class ReportGreatifyFactory {
       return notesHTML;
     }
 
-    // processing notes
+    // creating notes header
     notesHTML = `<p>${numNotes} notes found</p>`;
+
+    // processing notes
     console.log(`notes found`);
     
     return notesHTML;
@@ -109,6 +113,7 @@ export class ReportGreatifyFactory {
 
   @greatify
   static attachmentsList(item: Zotero.Item) {
+
     // set standard return
     let attachmentsHTML = 'no attachments found';
 
@@ -116,20 +121,24 @@ export class ReportGreatifyFactory {
     if (this.isAttachmentOrNote(item)) {
       return attachmentsHTML;
     }
-    
-    // processing attachments
-    const numAttachments = item.numAttachments();
-    attachmentsHTML = `<p>${numAttachments} attachments found</p>`;
-    if (numAttachments === 0) {
-      console.log(`No attachments found`);
-    } else {
-      const attachments = item.getAttachments();
 
-      for (const ID of attachments) {
-        const attachment = Zotero.Items.get(ID);
-        attachmentsHTML += `<p>${attachment.getDisplayTitle()}</p>`;
-      }
+    // check if more than one attachment, if not, standard return
+    const numAttachments = item.numAttachments();
+    if (numAttachments === 0) {
+      return attachmentsHTML;
     }
+    
+    // creating attachment header
+    attachmentsHTML = `<p>${numAttachments} attachments found</p>`;
+
+    // processing attachments
+    const attachments = item.getAttachments();
+
+    for (const ID of attachments) {
+      const attachment = Zotero.Items.get(ID);
+      attachmentsHTML += `<p>${attachment.getDisplayTitle()}</p>`;
+    }
+    
     return attachmentsHTML;
   }
 
@@ -143,19 +152,26 @@ export class ReportGreatifyFactory {
       return coverHTML;
     }
 
+    // check if more than one attachment, if not, standard return
     const numAttachments = item.numAttachments();
     if (numAttachments === 0) {
-      console.log(`No attachments found`);
-    } else {
-      const attachments = item.getAttachments();
-      for (const ID of attachments) {
-        const attachment = Zotero.Items.get(ID);
-        if (attachment.getDisplayTitle() === "cover.jpg") {
-          const cover = await attachment.attachmentDataURI;
-          coverHTML = `<img src="${cover}" alt="cover image">`;
-        }
-      }
+      return coverHTML;
     }
+
+    // searching for cover.jpg file in attachments
+    const coverID = item.getAttachments().find(ID => {
+      const attachment = Zotero.Items.get(ID);
+      return attachment.getDisplayTitle() === "cover.jpg";
+    });
+    
+    // if it was found, return the cover instead of standard return
+    if (coverID) {
+      const attachment = Zotero.Items.get(coverID);
+      const cover = await attachment.attachmentDataURI;
+      return `<img src="${cover}" alt="cover image">`;
+    }
+    
+    //if nothing was found, standard return
     return coverHTML;
   }
 
