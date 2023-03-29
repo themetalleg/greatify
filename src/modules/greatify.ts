@@ -61,8 +61,6 @@ export class ReportGreatifyFactory {
       if (item.isTopLevelItem()) {
         const mainTitle = item.getDisplayTitle();
         let mainHTML = `<hr><p>${mainTitle}</p>`;
-        let coverHTML = await Icons.get("question-circle"); // await the promise returned by Icons.get
-
         let attachmentsHTML = '';
         let notesHTML = '';
 
@@ -92,18 +90,13 @@ export class ReportGreatifyFactory {
 
             for (const ID of IDs) {
               const attachment = Zotero.Items.get(ID);
-
-              if (attachment.getDisplayTitle() === "cover.jpg") {
-                const cover = await attachment.attachmentDataURI;
-                coverHTML = `<img src="${cover}" alt="${mainTitle} cover image">`;
-                console.log(`Cover found for item: ${mainTitle}`);
-              } else {
-                attachmentsHTML += `<p>${attachment.getDisplayTitle()}</p>`;
-              }
+              attachmentsHTML += `<p>${attachment.getDisplayTitle()}</p>`;
             }
           }
         }
 
+        const coverHTML = await this.getCover(item);
+        
         mainHTML += coverHTML + attachmentsHTML + notesHTML;
         tableHTML += mainHTML;
       }
@@ -112,9 +105,31 @@ export class ReportGreatifyFactory {
     return tableHTML;
   }
 
+  @greatify
+  static async getCover(item: Zotero.Item) {
+    let coverHTML = await Icons.get("question-circle");
+    const type = item.itemType.toString();
+    if (type === 'attachment' || type === 'note') {
+      console.warn('This is an attachment/note item. Skipping it.');
+    } else {
+      const numAttachments = item.numAttachments();
+      if (numAttachments === 0) {
+        console.log(`No attachments found`);
+      } else {
+        const attachments = item.getAttachments();
+        for (const ID of attachments) {
+          const attachment = Zotero.Items.get(ID);
+          if (attachment.getDisplayTitle() === "cover.jpg") {
+            const cover = await attachment.attachmentDataURI;
+            coverHTML = `<img src="${cover}" alt="cover image">`;
+          }
+        }
+      }
+    }
+    return coverHTML;
+  }
 
-
-
+  
   // Function to generate the HTML content for the report
   @greatify
   static generateReportContent(itemTable: string) {
@@ -167,6 +182,4 @@ export class ReportGreatifyFactory {
       container.appendChild(iframe);
     }
   }
-  
 }
-
