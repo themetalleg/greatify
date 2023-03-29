@@ -61,7 +61,6 @@ export class ReportGreatifyFactory {
       if (item.isTopLevelItem()) {
         const mainTitle = item.getDisplayTitle();
         let mainHTML = `<hr><p>${mainTitle}</p>`;
-        let attachmentsHTML = '';
         let notesHTML = '';
 
         const type = item.itemType.toString();
@@ -79,22 +78,10 @@ export class ReportGreatifyFactory {
             console.log(`Notes found for item: ${mainTitle}`);
           }
 
-          //processing attachments
-          const numAttachments = item.numAttachments();
-          attachmentsHTML += `<p>${numAttachments} attachments found</p>`;
-          if (numAttachments === 0) {
-            console.log(`No attachments found for item: ${mainTitle}`);
-          } else {
-            const attachmentIDs = item.getAttachments().toString();
-            const IDs = attachmentIDs.split(',');
-
-            for (const ID of IDs) {
-              const attachment = Zotero.Items.get(ID);
-              attachmentsHTML += `<p>${attachment.getDisplayTitle()}</p>`;
-            }
-          }
+          
         }
 
+        const attachmentsHTML = this.attachmentsList(item);
         const coverHTML = await this.getCover(item);
         
         mainHTML += coverHTML + attachmentsHTML + notesHTML;
@@ -103,6 +90,32 @@ export class ReportGreatifyFactory {
     }
 
     return tableHTML;
+  }
+
+  @greatify
+  static attachmentsList(item: Zotero.Item) {
+    let attachmentsHTML = 'no attachments found';
+    const type = item.itemType.toString();
+
+    if (type === 'attachment' || type === 'note') {
+      console.warn('This is an attachment/note item. Skipping it.');
+    } else {
+      //processing attachments
+      
+      const numAttachments = item.numAttachments();
+      attachmentsHTML += `<p>${numAttachments} attachments found</p>`;
+      if (numAttachments === 0) {
+        console.log(`No attachments found`);
+      } else {
+        const attachments = item.getAttachments();
+
+        for (const ID of attachments) {
+          const attachment = Zotero.Items.get(ID);
+          attachmentsHTML += `<p>${attachment.getDisplayTitle()}</p>`;
+        }
+      }
+    }
+    return attachmentsHTML;
   }
 
   @greatify
