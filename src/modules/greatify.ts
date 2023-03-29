@@ -105,9 +105,16 @@ export class ReportGreatifyFactory {
     // creating notes header
     notesHTML = `<p>${numNotes} notes found</p>`;
 
-    // processing notes
-    console.log(`notes found`);
-    
+    // processing attachments
+    const notes = item.getNotes();
+
+    notesHTML += '<ul id="notes">';
+    for (const ID of notes) {
+      const note = Zotero.Items.get(ID);
+      notesHTML += `<li>${note.getDisplayTitle()}</li>`;
+    }
+    notesHTML += '</ul>';
+
     return notesHTML;
   }
 
@@ -134,10 +141,12 @@ export class ReportGreatifyFactory {
     // processing attachments
     const attachments = item.getAttachments();
 
+    attachmentsHTML += '<ul id="attachments">';
     for (const ID of attachments) {
       const attachment = Zotero.Items.get(ID);
-      attachmentsHTML += `<p>${attachment.getDisplayTitle()}</p>`;
+      attachmentsHTML += `<li>${attachment.getDisplayTitle()}</li>`;
     }
+    attachmentsHTML += '</ul>';
     
     return attachmentsHTML;
   }
