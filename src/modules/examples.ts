@@ -311,7 +311,7 @@ export class UIExampleFactory {
     await ztoolkit.ItemTree.refresh();
   }
 
-  // NEW COSTUM FIELD
+  // NEW custom FIELD
   @example
   static async registerCustomItemBoxRow() {
     await ztoolkit.ItemBox.register(
