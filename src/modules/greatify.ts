@@ -220,7 +220,7 @@ export class ReportGreatifyFactory {
     var website = new Website();
 
     website.bootstrap = true;
-    website.title = "das ist ein testreport";
+    website.title = "this is a test";
 
     website.addTo('css', `
     html { background-color: white; }
