@@ -21,7 +21,7 @@ function greatify(
   return descriptor;
 }
 
-// Class to register the "create costum report" menu item
+// Class to register the "create custom report" menu item
 export class MenuGreatifyFactory {
 
   // Function to add a menu item with icon
@@ -31,10 +31,10 @@ export class MenuGreatifyFactory {
     
     ztoolkit.Menu.register('item', {
       tag: 'menuitem',
-      id: 'zotero-itemmenu-costumreport',
-      label: 'Create costum report',
+      id: 'zotero-itemmenu-customreport',
+      label: 'Create custom report',
       // label: getString("menuitem.label"),
-      // oncommand: ReportGreatifyFactory.costumReport as any as string,
+      // oncommand: ReportGreatifyFactory.customReport as any as string,
       commandListener: () => addon.hooks.onWindowEvents('report'),
       icon: menuIcon,
     });

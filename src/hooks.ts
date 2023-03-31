@@ -55,7 +55,7 @@ async function onStartup() {
   // --- greatify
   MenuGreatifyFactory.registerRightClickMenuItem();
 
-  // ReportGreatifyFactory.costumReport();
+  // ReportGreatifyFactory.customReport();
   // greatify ---
 
   UIExampleFactory.registerStyleSheet();
