@@ -1,6 +1,5 @@
 import { config } from '../../package.json';
 import { getString } from './locale';
-import { Icons } from './icons';
 
 const sectionNames = ["head", "body", "css"] as const;
 type HTMLSection = typeof sectionNames[number];

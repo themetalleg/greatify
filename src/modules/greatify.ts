@@ -1,6 +1,5 @@
 import { config } from '../../package.json';
 import { getString } from './locale';
-import { Icons } from './icons';
 
 function greatify(
   target: any,
