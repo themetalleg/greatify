@@ -13,7 +13,7 @@ html file:
 
 javascript code to load the file:
 
-async function costumReport() {
+async function customReport() {
     const newTab = {
       id: 'hello-world',
       type: 'hello-world',

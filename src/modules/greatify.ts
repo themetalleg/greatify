@@ -1,6 +1,6 @@
 import { config } from '../../package.json';
+import { Website } from './html';
 import { getString } from './locale';
-import { Icons } from './icons';
 
 function greatify(
   target: any,
@@ -21,7 +21,7 @@ function greatify(
   return descriptor;
 }
 
-// Class to register the "create costum report" menu item
+// Class to register the "create custom report" menu item
 export class MenuGreatifyFactory {
 
   // Function to add a menu item with icon
@@ -31,10 +31,10 @@ export class MenuGreatifyFactory {
     
     ztoolkit.Menu.register('item', {
       tag: 'menuitem',
-      id: 'zotero-itemmenu-costumreport',
-      label: 'Create costum report',
+      id: 'zotero-itemmenu-customreport',
+      label: 'Create custom report',
       // label: getString("menuitem.label"),
-      // oncommand: ReportGreatifyFactory.costumReport as any as string,
+      // oncommand: ReportGreatifyFactory.customReport as any as string,
       commandListener: () => addon.hooks.onWindowEvents('report'),
       icon: menuIcon,
     });
@@ -155,7 +155,7 @@ export class ReportGreatifyFactory {
     attachmentsHTML += '<div class="alert alert-light" role="alert">';
     attachmentsHTML += `<h3>Attachments</h3>`;
     attachmentsHTML += '</div>';
-
+    
     // processing attachments
     const attachments = item.getAttachments();
 
@@ -216,23 +216,21 @@ export class ReportGreatifyFactory {
   // Function to generate the HTML content for the report
   @greatify
   static generateReportContent(itemTable: string) {
-    const htmlcss = `
+    
+    var website = new Website();
+
+    website.bootstrap = true;
+    website.title = "das ist ein testreport";
+
+    website.addTo('css', `
     html { background-color: white; }
     td { vertical-align: top; }
+    `);
+
+    website.addTo('body', '<button type="button" class="btn btn-primary d-print-none" onclick="window.print()">Print</button>');
+    website.addTo('body', itemTable);
     
-    `;
-    const htmlhead = `<head>
-      <title>report</title>
-      <meta charset="UTF-8">
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-      <style>${htmlcss}</style>
-      </head>`;
-    const htmlbody = `<body>
-      <button type="button" class="btn btn-primary d-print-none" onclick="window.print()">Print</button>
-      ${itemTable}
-      </body>`;
-    return `<html>${htmlhead}${htmlbody}</html>`;
+    return website.build();
   }
 
   // Function to generate the report and add it to a new tab
