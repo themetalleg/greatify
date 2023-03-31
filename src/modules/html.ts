@@ -10,15 +10,6 @@ export class Website {
 
   public title: string = 'hello world';
 
-  public bootstrap: boolean = false;
-    
-  private bootstrapCSS: string[] = [
-    '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">',
-    '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">',
-  ];
-
-  public tailwind: boolean = false;
-
   constructor() {
     this.sections = {} as Record<HTMLSection, string[]>;
     sectionNames.forEach((name) => {
@@ -41,10 +32,6 @@ export class Website {
   }
 
   build(): string {
-
-    if (this.bootstrap) {
-        this.addTo('head', this.bootstrapCSS);
-    }
 
     return `<html><head>
     <title>${this.title}</title>

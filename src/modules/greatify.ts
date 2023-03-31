@@ -56,7 +56,7 @@ export class ReportGreatifyFactory {
     
     const headerHTML = this.createReportHeader(itemsTopLevel);
 
-    let tableHTML = '<table class="table">';
+    let tableHTML = '<table>';
 
     for (const item of itemsTopLevel) {
 
@@ -82,7 +82,7 @@ export class ReportGreatifyFactory {
 
   @greatify
   static createReportHeader(items: any[]) {
-    const reportTitle = `Report (${items.length} items)`;
+    const reportTitle = `report (${items.length} items)`;
     const headerHTML = `<h1>${reportTitle}</h1>`;
     return headerHTML;
   }
@@ -115,7 +115,7 @@ export class ReportGreatifyFactory {
     // creating notes header
     notesHTML = '';
     notesHTML += '<div class="alert alert-light" role="alert">';
-    notesHTML += `<h3>Notes</h3>`;
+    notesHTML += `<h3>notes</h3>`;
     notesHTML += '</div>';
 
     // processing attachments
@@ -152,14 +152,14 @@ export class ReportGreatifyFactory {
     
     // creating attachment header
     attachmentsHTML = '';
-    attachmentsHTML += '<div class="alert alert-light" role="alert">';
-    attachmentsHTML += `<h3>Attachments</h3>`;
+    attachmentsHTML += '<div class="">';
+    attachmentsHTML += `<h3>attachments</h3>`;
     attachmentsHTML += '</div>';
     
     // processing attachments
     const attachments = item.getAttachments();
 
-    attachmentsHTML += '<div class="alert alert-primary" role="alert">';
+    attachmentsHTML += '<div class="">';
     for (const ID of attachments) {
       const attachment = Zotero.Items.get(ID);
       attachmentsHTML += `<li>${attachment.getDisplayTitle()}</li>`;
@@ -172,7 +172,7 @@ export class ReportGreatifyFactory {
   @greatify
   static async getCover(item: Zotero.Item) {
     // set standard return
-    let coverHTML = '<div class="d-block bg-dark img-thumbnail m-4" style="width: 200px; height: 200px;"></div>';
+    let coverHTML = '<div class="noimage"></div>';
 
     // check if attachment or note, then standard return
     if (this.isAttachmentOrNote(item)) {
@@ -195,7 +195,7 @@ export class ReportGreatifyFactory {
     if (coverID) {
       const attachment = Zotero.Items.get(coverID);
       const cover = await attachment.attachmentDataURI;
-      return `<img src="${cover}" alt="cover image" class="img-thumbnail m-4" width="200">`;
+      return `<img src="${cover}" alt="cover image" class="cover" width="200">`;
     }
     
     //if nothing was found, standard return
@@ -218,18 +218,45 @@ export class ReportGreatifyFactory {
   static generateReportContent(itemTable: string) {
     
     var website = new Website();
-
-    website.bootstrap = true;
+    
     website.title = "this is a test";
 
-    website.addTo('css', `
-    html { background-color: white; }
-    td { vertical-align: top; }
-    `);
-
-    website.addTo('body', '<button type="button" class="btn btn-primary d-print-none" onclick="window.print()">Print</button>');
+    website.addTo('body', '<button type="button" class="pure-button" onclick="window.print()">Print</button>');
     website.addTo('body', itemTable);
     
+    website.addTo('css', `
+    html {
+      font-size: 12px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      display: block;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      color: grey;
+    }
+
+    .noimage {
+      background-color: grey;
+      display: block;
+      height: 250px;
+      width: 250px;
+    }
+
+    table td {
+      vertical-align: top;
+      padding: 10px;
+    }
+    `);
+
     return website.build();
   }
 
@@ -258,9 +285,12 @@ export class ReportGreatifyFactory {
     iframe.setAttribute('src', `data:text/html,${reportContent}`);
     iframe.setAttribute('flex', '1');
 
+    
+
     // Add the iframe to the tab
     const deck = Zotero_Tabs.deck;
     const container = deck.lastChild;
+    
     if (container != null) {
       container.appendChild(iframe);
     }
