@@ -90,7 +90,7 @@ export class ReportGreatifyFactory {
   @greatify
   static createItemHTML(item: Zotero.Item) {
     const itemTitle = item.getDisplayTitle();
-    itemHTML = `<h2>${itemTitle}</h2>`;
+    const itemHTML = `<h2>${itemTitle}</h2>`;
     return itemHTML;
   }
 
