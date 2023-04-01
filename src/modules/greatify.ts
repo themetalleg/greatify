@@ -90,7 +90,7 @@ export class ReportGreatifyFactory {
   @greatify
   static createItemHTML(item: Zotero.Item) {
     const itemTitle = item.getDisplayTitle();
-    const itemHTML = `<h2>${itemTitle}</h2>`;
+    let itemHTML = `<h2>${itemTitle}</h2>`;
     return itemHTML;
   }
 
@@ -114,16 +114,14 @@ export class ReportGreatifyFactory {
 
     // creating notes header
     notesHTML = '';
-    notesHTML += '<div class="alert alert-light" role="alert">';
     notesHTML += `<h3>notes</h3>`;
-    notesHTML += '</div>';
 
     // processing attachments
     const notes = item.getNotes();
 
     for (const ID of notes) {
       const note = Zotero.Items.get(ID);
-      notesHTML += '<div class="alert alert-warning" role="alert">';
+      notesHTML += '<div class="note">';
       notesHTML += `${note.getNote()}`;
       notesHTML += '</div>';
       //notesHTML += `<li>${note.getDisplayTitle()}</li>`;
@@ -134,7 +132,7 @@ export class ReportGreatifyFactory {
 
   @greatify
   static attachmentsList(item: Zotero.Item) {
-
+    
     // set standard return
     Zotero.log('no attachments found', 'warning');
     let attachmentsHTML = '';
@@ -152,14 +150,12 @@ export class ReportGreatifyFactory {
     
     // creating attachment header
     attachmentsHTML = '';
-    attachmentsHTML += '<div class="">';
     attachmentsHTML += `<h3>attachments</h3>`;
-    attachmentsHTML += '</div>';
     
     // processing attachments
     const attachments = item.getAttachments();
 
-    attachmentsHTML += '<div class="">';
+    attachmentsHTML += '<div class="attachments">';
     for (const ID of attachments) {
       const attachment = Zotero.Items.get(ID);
       attachmentsHTML += `<li>${attachment.getDisplayTitle()}</li>`;
@@ -244,11 +240,35 @@ export class ReportGreatifyFactory {
       color: grey;
     }
 
+    .note {
+      background-color: rgb(255, 228, 94);
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .attachments {
+      background-color: rgb(255, 193, 94);
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .note div p {
+      padding: 0;
+      margin: 0;
+      line-height: 1;
+    }
+
     .noimage {
-      background-color: grey;
+      background-color: rgb(161, 166, 180);
       display: block;
       height: 250px;
       width: 250px;
+      border-radius: 5px;
+    }
+
+    .cover {
+      float: right;
     }
 
     table td {
@@ -256,7 +276,7 @@ export class ReportGreatifyFactory {
       padding: 10px;
     }
     `);
-
+    Zotero.log(itemTable, "warning");
     return website.build();
   }
 
