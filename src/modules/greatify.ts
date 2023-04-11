@@ -90,15 +90,31 @@ export class ReportGreatifyFactory {
   @greatify
   static generateCreatorsList(item: Zotero.Item) {
     const creators = item.getCreators();
-  
-    const creatorStrs = creators.map((creator) => {
-      // make the first letter uppercase
-      const creatorType = Zotero.CreatorTypes.getName(creator.creatorTypeID).replace(/^\w/, (c) => c.toUpperCase());
-      return `<p>${creatorType}: ${creator.firstName} ${creator.lastName}</p>`;
+    const groupedCreators: {[key: string]: string[]} = {};
+
+    creators.forEach((creator) => {
+      const creatorType = Zotero.CreatorTypes.getName(creator.creatorTypeID);
+      if (!groupedCreators[creatorType]) {
+        groupedCreators[creatorType] = [];
+      }
+      groupedCreators[creatorType].push(`${creator.firstName} ${creator.lastName}`);
     });
-  
-    return creatorStrs.join('');
-  }
+
+    let creatorStrs = '';
+    for (const creatorType in groupedCreators) {
+      if (groupedCreators.hasOwnProperty(creatorType)) {
+        const creators = groupedCreators[creatorType];
+        const capitalizedCreatorType = creatorType.charAt(0).toUpperCase() + creatorType.slice(1);
+        if (creators.length > 1) {
+          creatorStrs += `<p>${capitalizedCreatorType}s: ${creators.join(' & ')}</p>`;
+        } else {
+          creatorStrs += `<p>${capitalizedCreatorType}: ${creators[0]}</p>`;
+        }
+      }
+    }
+
+    return creatorStrs;
+}
 
   @greatify
   static createItemHTML(item: Zotero.Item) {
@@ -112,6 +128,17 @@ export class ReportGreatifyFactory {
     itemHTML += `<p>Edition: ${item.getField('edition')}</p>`;
     itemHTML += `<p>Item Type: ${item.itemType.toString()}</p>`;
     itemHTML += `<p>Series: ${item.getField('series')}</p>`;
+    itemHTML += `<p>exhibition: ${ztoolkit.ExtraField.getExtraField(item, "itemBoxFieldEditable")}</p>`;
+    itemHTML += `<p>ISBN: ${item.getField('ISBN')}</p>`;
+    itemHTML += `<p>Signature: ${item.getField('archiveLocation')}</p>`;
+    itemHTML += `<p>Pages: ${item.getField('numPages')}</p>`;
+
+    // fields to create:
+    // type (catalogue group show, monograph)
+    // cover type (hard cover / soft cover)
+    // Quantity
+    // 
+    
     return itemHTML;
   }
 
