@@ -88,9 +88,30 @@ export class ReportGreatifyFactory {
   }
 
   @greatify
+  static generateCreatorsList(item: Zotero.Item) {
+    const creators = item.getCreators();
+  
+    const creatorStrs = creators.map((creator) => {
+      // make the first letter uppercase
+      const creatorType = Zotero.CreatorTypes.getName(creator.creatorTypeID).replace(/^\w/, (c) => c.toUpperCase());
+      return `<p>${creatorType}: ${creator.firstName} ${creator.lastName}</p>`;
+    });
+  
+    return creatorStrs.join('');
+  }
+
+  @greatify
   static createItemHTML(item: Zotero.Item) {
     const itemTitle = item.getDisplayTitle();
     let itemHTML = `<h2>${itemTitle}</h2>`;
+
+    itemHTML += this.generateCreatorsList(item);
+    
+    itemHTML += `<p>Date: ${item.getField('date')}</p>`;
+    itemHTML += `<p>Publisher: ${item.getField('publisher')}</p>`;
+    itemHTML += `<p>Edition: ${item.getField('edition')}</p>`;
+    itemHTML += `<p>Item Type: ${item.itemType.toString()}</p>`;
+    itemHTML += `<p>Series: ${item.getField('series')}</p>`;
     return itemHTML;
   }
 
@@ -184,7 +205,7 @@ export class ReportGreatifyFactory {
     // searching for cover.jpg file in attachments
     const coverID = item.getAttachments().find(ID => {
       const attachment = Zotero.Items.get(ID);
-      return attachment.getDisplayTitle() === 'cover.jpg';
+      return attachment.getDisplayTitle().toLowerCase().includes('cover');
     });
     
     // if it was found, return the cover instead of standard return
