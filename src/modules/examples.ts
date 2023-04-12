@@ -334,6 +334,8 @@ export class UIExampleFactory {
           return true;
         },
         index: 1,
+        multiline: true,
+        collapsible: true,
       }
     );
 

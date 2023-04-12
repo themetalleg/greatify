@@ -41,6 +41,55 @@ export class MenuGreatifyFactory {
   }
 }
 
+export class UIGreatifyFactory {
+  // register specific fields
+  @greatify
+  static async registerItemRows() {
+    const rows: [string, string, number][] = [
+      ['Exhibition1', 'Exhibition 1', 15],
+      ['Exhibition2', 'Exhibition 2', 16],
+      ['Exhibition3', 'Exhibition 3', 17],
+      ['TypeOfBook', 'Type of Book', 1],
+      ['ActualLocation', 'actual Location', 25],
+    ];
+
+    await this.registerItemRow(rows);
+  }
+
+  // register exhibition fields
+  @greatify
+  static async registerItemRow(rows: [string, string, number][]) {
+    // exhCount is set in the beginning of this file
+    for (let row of rows) {
+      await ztoolkit.ItemBox.register(
+        `itemBox${row[0]}`,
+        `${row[1]}`,
+        (field, unformatted, includeBaseMapped, item, original) => {
+          return (
+            ztoolkit.ExtraField.getExtraField(item, `itemBox${row[0]}`) || ''
+          );
+        },
+        {
+          editable: true,
+          setFieldHook: (field, value, loadIn, item, original) => {
+            //window.alert("Custom itemBox value is changed and saved to extra!");
+            ztoolkit.ExtraField.setExtraField(
+              item,
+              `itemBox${row[0]}`,
+              value
+            );
+            return true;
+          },
+          index: row[2],
+          multiline: true,
+          collapsible: true,
+        }
+      );
+    }
+  }
+}
+
+
 export class ReportGreatifyFactory {
 
   /**
