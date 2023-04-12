@@ -295,15 +295,10 @@ export class ReportGreatifyFactory {
     return coverHTML;
   }
 
+  // function to check if item is an attachment or note
   @greatify
   static isAttachmentOrNote(item: Zotero.Item) {
-    const type = item.itemType.toString();
-    if (type === 'attachment' || type === 'note') {
-      Zotero.log('This is an attachment/note item. Skipping it.', 'warning');
-      return true;
-    } else {
-      return false;
-    }
+    return ['attachment', 'note'].includes(item.itemType.toString());
   }
 
   // Function to generate the HTML content for the report
@@ -401,9 +396,7 @@ export class ReportGreatifyFactory {
     const iframe = document.createElement('iframe');
     iframe.setAttribute('src', `data:text/html,${reportContent}`);
     iframe.setAttribute('flex', '1');
-
     
-
     // Add the iframe to the tab
     const deck = Zotero_Tabs.deck;
     const container = deck.lastChild;
