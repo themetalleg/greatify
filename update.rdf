@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
-  <rdf:Description rdf:about="urn:mozilla:extension:greatify@robertkalb.com">
+  <rdf:Description rdf:about="urn:mozilla:extension:greatify@themetalleg">
     <em:updates>
       <rdf:Seq>
         <rdf:li>
           <rdf:Description>
-            <em:version>0.0.1</em:version>
+            <em:version>0.0.4</em:version>
+            <em:updateURL>https://raw.githubusercontent.com/themetalleg/greatify/bootstrap/update.json</em:updateURL>
             <em:targetApplication>
               <rdf:Description>
                 <em:id>zotero@chnm.gmu.edu</em:id>
-                <em:minVersion>6.999</em:minVersion>
+                <em:minVersion>6.0.0</em:minVersion>
                 <em:maxVersion>*</em:maxVersion>
-                <em:updateLink>https://github.com/themetalleg/greatify/releases/latest/download/zotero-addon-template.xpi</em:updateLink>
               </rdf:Description>
             </em:targetApplication>
             <em:targetApplication>
               <rdf:Description>
                 <em:id>juris-m@juris-m.github.io</em:id>
-                <em:minVersion>6.999</em:minVersion>
+                <em:minVersion>6.0.0</em:minVersion>
                 <em:maxVersion>*</em:maxVersion>
-                <em:updateLink>https://github.com/themetalleg/greatify/releases/latest/download/zotero-addon-template.xpi</em:updateLink>
               </rdf:Description>
             </em:targetApplication>
           </rdf:Description>

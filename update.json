@@ -1,22 +1,40 @@
 {
   "addons": {
-    "greatify@robertkalb.com": {
+    "greatify@themetalleg": {
       "updates": [
         {
-          "version": "0.0.1",
-          "update_link": "https://github.com/themetalleg/greatify/releases/latest/download/greatify.xpi",
+          "version": "v0.0.1",
+          "update_link": "https://github.com/themetalleg/greatify/releases/download/v0.0.1/greatify.xpi",
           "applications": {
-            "gecko": {
-              "strict_min_version": "60.0"
+            "zotero": {
+              "strict_min_version": "6.0.0"
             }
           }
         },
         {
-          "version": "0.0.1",
-          "update_link": "https://github.com/themetalleg/greatify/releases/latest/download/greatify.xpi",
+          "version": "v0.0.2",
+          "update_link": "https://github.com/themetalleg/greatify/releases/download/v0.0.2/greatify.xpi",
           "applications": {
             "zotero": {
-              "strict_min_version": "6.999"
+              "strict_min_version": "6.0.0"
+            }
+          }
+        },
+        {
+          "version": "v0.0.3",
+          "update_link": "https://github.com/themetalleg/greatify/releases/download/v0.0.3/greatify.xpi",
+          "applications": {
+            "zotero": {
+              "strict_min_version": "6.0.0"
+            }
+          }
+        },
+        {
+          "version": "v0.0.4",
+          "update_link": "https://github.com/themetalleg/greatify/releases/download/v0.0.4/greatify.xpi",
+          "applications": {
+            "zotero": {
+              "strict_min_version": "6.0.0"
             }
           }
         }
