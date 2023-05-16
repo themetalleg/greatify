@@ -41,7 +41,7 @@
     "zotero-plugin-toolkit": "^2.0.8"
   },
   "devDependencies": {
-    "@types/node": "^18.11.17",
+    "@types/node": "^20.1.5",
     "compressing": "^1.6.3",
     "concurrently": "^8.0.1",
     "cross-env": "^7.0.3",
