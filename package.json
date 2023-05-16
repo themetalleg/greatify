@@ -1,14 +1,14 @@
 {
   "name": "greatify",
-  "version": "0.0.1",
+  "version": "0.0.15",
   "description": "Gallery Reference Entry and Article Tool with Interface For You ",
   "config": {
     "addonName": "greatify",
     "addonID": "greatify@robertkalb.com",
     "addonRef": "greatify",
     "addonInstance": "Greatify",
-    "releasepage": "https://github.com/themetalleg/greatify/releases/latest/download/zotero-addon-template.xpi",
-    "updaterdf": "https://raw.githubusercontent.com/themetalleg/greatify/bootstrap/update.json"
+    "releasepage": "https://github.com/themetalleg/greatify/releases/latest/download/greatify.xpi",
+    "updaterdf": "https://raw.githubusercontent.com/themetalleg/greatify/master/update.json"
   },
   "main": "src/index.ts",
   "scripts": {
@@ -28,7 +28,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/windingwind/zotero-addon-template.git"
+    "url": "git+https://github.com/themetalleg/greatify.git"
   },
   "author": "themetalleg",
   "license": "AGPL-3.0-or-later",
