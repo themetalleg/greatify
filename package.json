@@ -8,7 +8,7 @@
     "addonRef": "greatify",
     "addonInstance": "Greatify",
     "releasepage": "https://github.com/themetalleg/greatify/releases/latest/download/greatify.xpi",
-    "updaterdf": "https://raw.githubusercontent.com/themetalleg/greatify/master/update.json"
+    "updaterdf": "https://raw.githubusercontent.com/themetalleg/greatify/main/update.json"
   },
   "main": "src/index.ts",
   "scripts": {
