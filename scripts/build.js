@@ -94,8 +94,8 @@ async function main() {
 
   copyFolderRecursiveSync("addon", buildDir);
 
-  copyFileSync("update-template.json", "update.json");
-  copyFileSync("update-template.rdf", "update.rdf");
+  // copyFileSync("update-template.json", "update.json");
+  // copyFileSync("update-template.rdf", "update.rdf");
 
   await esbuild
     .build({
