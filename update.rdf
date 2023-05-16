@@ -5,7 +5,7 @@
       <rdf:Seq>
         <rdf:li>
           <rdf:Description>
-            <em:version>0.0.4</em:version>
+            <em:version>0.0.5</em:version>
             <em:updateURL>https://raw.githubusercontent.com/themetalleg/greatify/bootstrap/update.json</em:updateURL>
             <em:targetApplication>
               <rdf:Description>
