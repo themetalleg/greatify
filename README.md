@@ -8,7 +8,7 @@ To build and release, use
 
 ```shell
 # A release-it command: version increase, npm run build, git push, and GitHub release
-# You need to set the environment variable in .env file GITHUB_TOKEN https://github.com/settings/tokens
+# You need to set the environment variable GITHUB_TOKEN https://github.com/settings/tokens
 # release-it: https://github.com/release-it/release-it
 npm run release
 ```
