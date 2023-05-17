@@ -42,7 +42,7 @@ export class MenuGreatifyFactory {
 }
 
 export class UIGreatifyFactory {
-  // register specific fields
+  // set custom fields
   @greatify
   static async registerItemRows() {
     const rows: [string, string, number][] = [
@@ -56,17 +56,17 @@ export class UIGreatifyFactory {
     await this.registerItemRow(rows);
   }
 
-  // register exhibition fields
+  // register fields (loop setted fields)
   @greatify
   static async registerItemRow(rows: [string, string, number][]) {
-    // exhCount is set in the beginning of this file
+    
     for (let row of rows) {
       await ztoolkit.ItemBox.register(
-        `itemBox${row[0]}`,
+        `${row[0]}`,
         `${row[1]}`,
         (field, unformatted, includeBaseMapped, item, original) => {
           return (
-            ztoolkit.ExtraField.getExtraField(item, `itemBox${row[0]}`) || ''
+            ztoolkit.ExtraField.getExtraField(item, `${row[0]}`) || ''
           );
         },
         {
@@ -75,7 +75,7 @@ export class UIGreatifyFactory {
             //window.alert("Custom itemBox value is changed and saved to extra!");
             ztoolkit.ExtraField.setExtraField(
               item,
-              `itemBox${row[0]}`,
+              `${row[0]}`,
               value
             );
             return true;
@@ -180,7 +180,8 @@ export class ReportGreatifyFactory {
       { name: "Series", value: item.getField("series") },
       { name: "ISBN", value: item.getField("ISBN") },
       { name: "Signature", value: item.getField("archiveLocation") },
-      { name: "Pages", value: item.getField("numPages") }
+      { name: "Pages", value: item.getField("numPages") },
+      { name: "Exhibition 1", value: ztoolkit.ExtraField.getExtraField(item, `Exhibition1`)}
     ];
     
     for (const itemData of data) {
