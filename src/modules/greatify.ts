@@ -170,7 +170,7 @@ export class ReportGreatifyFactory {
     itemHTML += this.generateCreatorsList(item);
     
     const data = [
-      { name: "Title", value: item.getDisplayTitle( )},
+      { name: "Title", value: item.getDisplayTitle()},
       { name: "Date", value: item.getField("date") },
       { name: "Publisher", value: item.getField("publisher") },
       { name: "Edition", value: item.getField("edition") },
