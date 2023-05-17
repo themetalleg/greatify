@@ -11,7 +11,7 @@ To build and release, use
 # You need to set the environment variable GITHUB_TOKEN https://github.com/settings/tokens
 # release-it: https://github.com/release-it/release-it
 npm run release
-# remove ""ci": true in .release-it.json for non-automatic release
+# change "release": "release-it --ci" to "release": "release-it" for non-automatic release in package.json
 ```
 
 ## Disclaimer
