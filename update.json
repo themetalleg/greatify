@@ -3,7 +3,7 @@
     "greatify@robertkalb.com": {
       "updates": [
         {
-          "version": "0.0.33",
+          "version": "0.0.34",
           "update_link": "https://github.com/themetalleg/greatify/releases/latest/download/greatify.xpi",
           "applications": {
             "gecko": {
@@ -12,7 +12,7 @@
           }
         },
         {
-          "version": "0.0.33",
+          "version": "0.0.34",
           "update_link": "https://github.com/themetalleg/greatify/releases/latest/download/greatify.xpi",
           "applications": {
             "zotero": {
