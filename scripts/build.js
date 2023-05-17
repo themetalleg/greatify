@@ -1,4 +1,5 @@
 require('dotenv').config();
+console.log('GITHUB_TOKEN: ', process.env.GITHUB_TOKEN);
 const esbuild = require("esbuild");
 const compressing = require("compressing");
 const path = require("path");
