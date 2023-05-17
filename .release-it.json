@@ -7,7 +7,7 @@
     "assets": ["builds/*.xpi"]
   },
   "hooks": {
-    "after:bump": "npm run build",
+    "after:bump": "npm run build-dev",
     "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
   }
 }
