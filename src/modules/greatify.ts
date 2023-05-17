@@ -181,7 +181,11 @@ export class ReportGreatifyFactory {
       { name: "ISBN", value: item.getField("ISBN") },
       { name: "Signature", value: item.getField("archiveLocation") },
       { name: "Pages", value: item.getField("numPages") },
-      { name: "Exhibition 1", value: ztoolkit.ExtraField.getExtraField(item, `Exhibition1`)}
+      { name: "Exhibition 1", value: ztoolkit.ExtraField.getExtraField(item, "Exhibition1")},
+      { name: "Exhibition 2", value: ztoolkit.ExtraField.getExtraField(item, "Exhibition2")},
+      { name: "Exhibition 3", value: ztoolkit.ExtraField.getExtraField(item, "Exhibition3")},
+      { name: "Type of Book", value: ztoolkit.ExtraField.getExtraField(item, "TypeOfBook")},
+      { name: "Actual Location", value: ztoolkit.ExtraField.getExtraField(item, "ActualLocation")},
     ];
     
     for (const itemData of data) {
