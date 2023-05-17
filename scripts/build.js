@@ -1,3 +1,4 @@
+require('dotenv').config();
 const esbuild = require("esbuild");
 const compressing = require("compressing");
 const path = require("path");
