@@ -172,15 +172,22 @@ export class ReportGreatifyFactory {
 
     itemHTML += this.generateCreatorsList(item);
     
-    itemHTML += `<p>Date: ${item.getField('date')}</p>`;
-    itemHTML += `<p>Publisher: ${item.getField('publisher')}</p>`;
-    itemHTML += `<p>Edition: ${item.getField('edition')}</p>`;
-    itemHTML += `<p>Item Type: ${item.itemType.toString()}</p>`;
-    itemHTML += `<p>Series: ${item.getField('series')}</p>`;
-    itemHTML += `<p>exhibition: ${ztoolkit.ExtraField.getExtraField(item, "itemBoxFieldEditable")}</p>`;
-    itemHTML += `<p>ISBN: ${item.getField('ISBN')}</p>`;
-    itemHTML += `<p>Signature: ${item.getField('archiveLocation')}</p>`;
-    itemHTML += `<p>Pages: ${item.getField('numPages')}</p>`;
+    const data = [
+      { name: "Date", value: item.getField("date") },
+      { name: "Publisher", value: item.getField("publisher") },
+      { name: "Edition", value: item.getField("edition") },
+      { name: "Item Type", value: item.itemType.toString() },
+      { name: "Series", value: item.getField("series") },
+      { name: "Exhibition", value: ztoolkit.ExtraField.getExtraField(item, "itemBoxFieldEditable") },
+      { name: "ISBN", value: item.getField("ISBN") },
+      { name: "Signature", value: item.getField("archiveLocation") },
+      { name: "Pages", value: item.getField("numPages") }
+    ];
+    
+    for (const itemData of data) {
+      itemHTML += `<p>${itemData.name}: ${itemData.value}</p>`;
+    }
+    
 
     // fields to create:
     // type (catalogue group show, monograph)
