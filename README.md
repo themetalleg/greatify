@@ -13,6 +13,8 @@ To build and release, use
 npm run release
 ```
 
+remove ""ci": true in .release-it.json for non-automatic release
+
 
 ## Disclaimer
 
