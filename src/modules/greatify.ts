@@ -177,7 +177,6 @@ export class ReportGreatifyFactory {
       { name: "Item Type", value: item.itemType.toString() },
       { name: "Series", value: item.getField("series") },
       { name: "ISBN", value: item.getField("ISBN") },
-      { name: "Signatur", value: item.getField("callNumber") },
       { name: "Actual Location", value: item.getField("archiveLocation") },
       { name: "Pages", value: item.getField("numPages") },
       { name: "Type of Book", value: ztoolkit.ExtraField.getExtraField(item, "TypeOfBook")},
