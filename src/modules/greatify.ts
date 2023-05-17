@@ -47,7 +47,7 @@ export class UIGreatifyFactory {
   static async registerItemRows() {
     const rows: [string, string, number][] = [
       ['TypeOfBook', 'Type of Book', 1],
-      ['ActualLocation', 'actual Location', 25],
+      ['DesignatedLocation', 'designated Location', 22],
     ];
 
     await this.registerItemRow(rows);
@@ -176,10 +176,10 @@ export class ReportGreatifyFactory {
       { name: "Item Type", value: item.itemType.toString() },
       { name: "Series", value: item.getField("series") },
       { name: "ISBN", value: item.getField("ISBN") },
-      { name: "Signature", value: item.getField("archiveLocation") },
+      { name: "Actual Location", value: item.getField("archiveLocation") },
       { name: "Pages", value: item.getField("numPages") },
       { name: "Type of Book", value: ztoolkit.ExtraField.getExtraField(item, "TypeOfBook")},
-      { name: "Actual Location", value: ztoolkit.ExtraField.getExtraField(item, "ActualLocation")},
+      { name: "Designated Location", value: ztoolkit.ExtraField.getExtraField(item, "DesignatedLocation")},
     ];
     
     for (const itemData of data) {
