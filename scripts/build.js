@@ -123,19 +123,11 @@ async function main() {
 
   const replaceTo = [author, description, homepage, version, buildTime];
 
-  if (process.env.NODE_ENV === "production") {
-    config.releasepage = config.releasepage;
-    config.updaterdf = config.updaterdf;
-  } else {
-    config.releasepage = config.devreleasepage;
-    config.updaterdf = config.devupdaterdf;
-  }
-
   replaceFrom.push(
     ...Object.keys(config).map((k) => new RegExp(`__${k}__`, "g"))
   );
   replaceTo.push(...Object.values(config));
-  
+
   const optionsAddon = {
     files: [
       path.join(buildDir, "**/*.rdf"),

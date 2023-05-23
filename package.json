@@ -1,6 +1,6 @@
 {
   "name": "greatify",
-  "version": "0.0.44",
+  "version": "0.0.43",
   "description": "Gallery Reference Entry and Article Tool with Interface For You ",
   "config": {
     "addonName": "greatify",
@@ -8,9 +8,7 @@
     "addonRef": "greatify",
     "addonInstance": "Greatify",
     "releasepage": "https://github.com/themetalleg/greatify/releases/latest/download/greatify.xpi",
-    "devreleasepage": "https://github.com/themetalleg/greatify/releases/development/download/greatify.xpi",
-    "updaterdf": "https://raw.githubusercontent.com/themetalleg/greatify/main/update.json",
-    "devupdaterdf": "https://raw.githubusercontent.com/themetalleg/greatify/development/update.json"
+    "updaterdf": "https://raw.githubusercontent.com/themetalleg/greatify/main/update.json"
   },
   "main": "src/index.ts",
   "scripts": {
