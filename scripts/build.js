@@ -13,8 +13,6 @@ const {
   config,
 } = require("../package.json");
 
-require('dotenv').config();
-console.log('GITHUB_TOKEN: ', process.env.GITHUB_TOKEN);
 
 function copyFileSync(source, target) {
   var targetFile = target;
