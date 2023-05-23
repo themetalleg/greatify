@@ -186,10 +186,6 @@ export class ReportGreatifyFactory {
     for (const itemData of data) {
       itemHTML += `<p>${itemData.name}: ${itemData.value}</p>`;
     }
-    
-    // checking which fields exist
-    const fields = Zotero.ItemFields.getFields();
-    console.log(fields);
 
     // fields to create:
     // type (catalogue group show, monograph)
